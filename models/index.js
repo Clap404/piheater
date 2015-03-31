@@ -1,3 +1,5 @@
 module.exports = function(app){
-    return {};
+    return {
+        sensors: require('./sensors')(app),
+    }
 }
