@@ -5,14 +5,22 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var dbprofile = 'development';
+var dbconfig = require('./models/knexfile')[dbprofile];
+// Fix the db path
+dbconfig['connection']['filename'] = dbconfig['connection']['filename'].
+    substr(1);
+var knex = require('knex')(dbconfig);
+var bookshelf = require('bookshelf')(knex);
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.set('bookshelf', bookshelf);
+app.set('models', require('./models/index')(app));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -21,6 +29,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var routes = require('./routes/index')(app);
+var users = require('./routes/users');
 
 app.use('/', routes);
 app.use('/users', users);
