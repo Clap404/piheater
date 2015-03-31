@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+module.exports = function(app){
+    var express = require('express');
+    var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+    var bookshelf = app.get('bookshelf');
+    var models = app.get('models');
 
-module.exports = router;
+    /* GET home page. */
+    router.get('/', function(req, res, next) {
+        res.render( 'index', { title: 'Express' });
+    });
+    return router;
+};
