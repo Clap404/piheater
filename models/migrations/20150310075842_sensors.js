@@ -3,7 +3,7 @@
 exports.up = function(knex, Promise) {
     return knex.schema
     .createTable("type_sensor", function(t) {
-        t.increments().primary();
+        t.increments("id").primary();
         t.string("name").notNull();
     })
     .createTable("sensor", function(t) {
