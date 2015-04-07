@@ -1,3 +1,5 @@
 module.exports = function(app){
-    return {};
+    return {
+        gpio: require('./gpio/index')(app),
+    };
 }
