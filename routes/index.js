@@ -8,8 +8,8 @@ module.exports = function(app){
     var SensorModel = sensormodels.Sensor;
     var TypeSensorModel = sensormodels.TypeSensor;
 
-    /* GET home page. */
-    router.get('/', function(req, res, next) {
+    /* Testing page */
+    router.get('/test', function(req, res, next) {
         var test_type_sensor = new TypeSensorModel({name: 'test'}).save().
             then(function(type_sensor){
                 var test_sensor = new SensorModel({
@@ -20,12 +20,20 @@ module.exports = function(app){
                 }).save().
                     then(function(sensor){
                         res.render(
-                            'index',
+                            'test',
                             { title: 'Express',
                               sensor: sensor.get("name") }
                         );
                     });
             });
     });
+
+    router.get('/', function(req, res, next) {
+        res.render(
+            'index',
+            { title: 'Express', },
+        );
+    });
+
     return router;
 };
