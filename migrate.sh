@@ -1,4 +1,4 @@
 #!/bin/bash
-mkdir -r db
+mkdir -p db
 cd models
 knex migrate:latest
