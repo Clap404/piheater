@@ -37,7 +37,18 @@ function getHeater( pin_1, pin_2 ) {
     });
 }
 
+function getHeaters(){
+    var p_heaters = [];
+
+    for (var i=0; i < arguments.length; ++i){
+        p_heaters.push(getHeater(arguments[i][0], arguments[i][1]));
+    }
+
+    return Promise.all(p_heaters);
+}
+
 module.exports = {
     setHeater : setHeater,
     getHeater : getHeater,
+    getHeaters: getHeaters,
 }
