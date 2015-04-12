@@ -1,5 +1,5 @@
 module.exports = function(app){
-    var express = require('express');
+    var express = require("express");
     var router = express.Router();
 
     var bookshelf = app.get('bookshelf');
@@ -7,6 +7,23 @@ module.exports = function(app){
     var sensormodels = models.sensors;
     var SensorModel = sensormodels.Sensor;
     var TypeSensorModel = sensormodels.TypeSensor;
+
+    /* GET home page. */
+    router.get("/", function(req, res, next) {
+        res.render( "index", {
+            title: "Express",
+            sensor: {A200: 23, A240: 23.5},
+            heater: {"a010101":{"alias":"pouet","mode":"off"}},
+        });
+    });
+
+    router.get("/api/sensor", function(req, res, next){
+        res.json({A200: 23, A240: 23.5});
+    })
+
+    router.get("/api/heater", function(req, res, next){
+        res.json({"a010101":{"alias":"pouet","mode":"off"}});
+    })
 
     /* Testing page */
     router.get('/test', function(req, res, next) {
@@ -26,13 +43,6 @@ module.exports = function(app){
                         );
                     });
             });
-    });
-
-    router.get('/', function(req, res, next) {
-        res.render(
-            'index',
-            { title: 'Express', },
-        );
     });
 
     return router;
