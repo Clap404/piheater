@@ -1,1 +1,8 @@
-node_modules/*
+node_modules                  
+!node_modules/ds18b20/        
+!node_modules/ds18b20-promise/
+!node_modules/pi-gpio/        
+!node_modules/pi-gpio-promise/
+*.swp                         
+*.swo                         
+*.log
