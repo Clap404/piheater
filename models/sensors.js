@@ -1,22 +1,27 @@
 module.exports = function(app){
     var bookshelf = app.get('bookshelf');
 
-    var TypeSensor = bookshelf.Model.extend({
-        tableName: 'type_sensor',
-        sensors: function() {
-            return this.hasMany(Sensor);
-        },
-    });
-
     var Sensor = bookshelf.Model.extend({
         tableName: 'sensor',
-        type_sensor: function() {
-            return this.belongsTo(TypeSensor);
+    });
+
+    var Heater = bookshelf.Model.extend({
+        tableName: 'heater',
+        gpio: function() {
+            return this.hasMany(Heater_GPIO);
+        }
+    });
+
+    var Heater_GPIO = bookshelf.Model.extend({
+        tableName: 'heater_gpio',
+        heater: function() {
+            return this.belongsTo(Heater);
         },
     });
 
     return {
-        TypeSensor: TypeSensor,
+        Heater: Heater,
+        Heater_GPIO: Heater_GPIO,
         Sensor: Sensor,
     };
 }

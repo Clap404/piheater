@@ -6,32 +6,19 @@ module.exports = function(app){
     var models = app.get('models');
     var sensormodels = models.sensors;
     var SensorModel = sensormodels.Sensor;
-    var TypeSensorModel = sensormodels.TypeSensor;
+    var HeaterModel = sensormodels.Sensor;
 
     /* Testing page */
     router.get('/test', function(req, res, next) {
-        var test_type_sensor = new TypeSensorModel({name: 'test'}).save().
-            then(function(type_sensor){
-                var test_sensor = new SensorModel({
-                    name: 'test_sensor',
-                    descr: 'Testing sensor',
-                    gpio: 11,
-                    type_sensor_id: test_type_sensor.id,
-                }).save().
-                    then(function(sensor){
-                        res.render(
-                            'test',
-                            { title: 'Express',
-                              sensor: sensor.get("name") }
-                        );
-                    });
-            });
+        new HeaterModel().fetchAll().then(function(collect){
+            console.log(collect.at(0).get("gpio_id"));
+        });
     });
 
     router.get('/', function(req, res, next) {
         res.render(
             'index',
-            { title: 'Express', },
+            { title: 'Express', }
         );
     });
 
