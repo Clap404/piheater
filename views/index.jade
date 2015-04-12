@@ -1,5 +1,35 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+  h1= title
+  p Welcome to hahahahaha #{title}
+
+  section.dyn(datasource="/api/sensor", refresh="10000")
+    p Current temperatures : 
+
+    table
+      thead
+        tr
+          th sensor id
+          th temperature
+      tbody
+        each val,index in sensor
+          tr
+            td= index
+            td.dyn(field=index)= val
+
+  section.dyn(datasource="/api/heater", refresh="10000")
+    p Heater status :
+      table
+        thead
+          tr
+            th heater id
+            th alias
+            th mode
+            th action
+        tbody
+          each val, index in heater
+            tr
+              td= index
+              td.dyn(field=index+".alias")= val.alias
+              td.dyn(field=index+".mode")= val.mode
