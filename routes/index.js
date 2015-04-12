@@ -6,7 +6,7 @@ module.exports = function(app){
     var models = app.get('models');
     var sensormodels = models.sensors;
     var SensorModel = sensormodels.Sensor;
-    var HeaterModel = sensormodels.Sensor;
+    var HeaterModel = sensormodels.Heater;
 
     /* GET home page. */
     router.get("/", function(req, res, next) {
@@ -20,7 +20,7 @@ module.exports = function(app){
     /* Testing page */
     router.get('/test', function(req, res, next) {
         new HeaterModel().fetchAll().then(function(collect){
-            console.log(collect.at(0).get("gpio_id"));
+            console.log(collect.at(0));
         });
     });
 

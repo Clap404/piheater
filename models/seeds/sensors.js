@@ -4,7 +4,6 @@ exports.seed = function(knex, Promise) {
     return Promise.join(
         // Deletes ALL existing entries
         knex("sensor").del(),
-        knex("heater_gpio").del(),
         knex("heater").del(),
 
         knex("sensor").insert({
@@ -27,28 +26,15 @@ exports.seed = function(knex, Promise) {
             id: 1,
             name: "heater_desktop",
             descr: "Radiateur du bureau",
+            pin1: 11,
+            pin2: 12,
         }),
-        knex("heater_gpio").insert({
-            heater_id: 1,
-            pin: 11,
-        }),
-        knex("heater_gpio").insert({
-            heater_id: 1,
-            pin: 12,
-        }),
-
         knex("heater").insert({
             id: 2,
             name: "heater_hall",
             descr: "Radiateur de l'entrée",
-        }),
-        knex("heater_gpio").insert({
-            heater_id: 1,
-            pin: 13,
-        }),
-        knex("heater_gpio").insert({
-            heater_id: 1,
-            pin: 15,
+            pin1: 13,
+            pin2: 15,
         })
     );
 };

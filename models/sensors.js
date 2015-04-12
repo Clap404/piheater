@@ -7,21 +7,10 @@ module.exports = function(app){
 
     var Heater = bookshelf.Model.extend({
         tableName: 'heater',
-        gpio: function() {
-            return this.hasMany(Heater_GPIO);
-        }
-    });
-
-    var Heater_GPIO = bookshelf.Model.extend({
-        tableName: 'heater_gpio',
-        heater: function() {
-            return this.belongsTo(Heater);
-        },
     });
 
     return {
         Heater: Heater,
-        Heater_GPIO: Heater_GPIO,
         Sensor: Sensor,
     };
 }
