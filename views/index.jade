@@ -2,34 +2,43 @@ extends layout
 
 block content
   h1= title
-  p Welcome to hahahahaha #{title}
+  p Welcome to #{title}
 
-  section.dyn(datasource="/api/sensor", refresh="10000")
-    p Current temperatures :
+  div.flexbox
+    aside.w20
+      nav#navigation(role="navigation")
+        ul.unstyled.autocolor
+          li bla
+          li bleh
 
-    table
-      thead
-        tr
-          th sensor id
-          th temperature
-      tbody
-        each val,index in sensor
-          tr
-            td= index
-            td.dyn(field=index)= val
+    div#main.flexitem-fluid.autocolor(role="main")   
+      section.dyn(datasource="/api/sensor", refresh="10000")
+        h2 Current temperatures : 
 
-  section.dyn(datasource="/api/heater", refresh="10000")
-    p Heater status :
-      table
-        thead
-          tr
-            th heater id
-            th alias
-            th mode
-            th action
-        tbody
-          each val, index in heater
+        table
+          thead
             tr
+              th sensor id
+              th temperature
+          tbody
+            each val,index in sensor
+              tr
+                td= index
+                td.dyn(field=index)= val
+
+      section.dyn(datasource="/api/heater", refresh="10000")
+        h2 Heater status :
+
+        table
+          thead
+            tr
+              th heater id
+              th alias
+              th mode
+              th action
+          tbody
+            each val, index in heater
+              tr
               td= index
               td.dyn(field=index+".name")= val.name
               td.dyn(field=index+".mode")= val.mode

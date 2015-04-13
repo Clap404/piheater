@@ -3,7 +3,7 @@ module.exports = function(app){
     var router = express.Router();
     var Promise = require("bluebird");
 
-        var bookshelf = app.get('bookshelf');
+    var bookshelf = app.get('bookshelf');
     var models = app.get('models');
     var sensormodels = models.sensors;
     var SensorModel = sensormodels.Sensor;
@@ -70,6 +70,8 @@ module.exports = function(app){
                 res.json(heater_lst);
             });
     });
+
+    var Promise = require('bluebird');
 
     /* GET home page. */
     router.get("/", function(req, res, next) {

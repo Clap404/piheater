@@ -1,8 +1,75 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/**
+ * color palette
+ *      dark        light
+ * green #577C1D to #73A627
+ * pink #930617 to #DD1963
+ * black 
+ */
+
+body{
+    padding: 1em;
+    background-color:#E6E2DD ;
 }
 
-a {
-  color: #00B7FF;
+
+section{
+    padding: 0 0.5em 0.5em 0.5em;
+}
+
+h2 {
+    padding-left: 1em;
+    font-size:1.5em;
+    color:white;
+}
+
+nav {
+    padding: 0.5em;
+}
+
+ul.unstyled{
+    padding:0;
+    padding-right: 1em;
+}
+
+ul.unstyled li{
+    padding: 0.5em;
+}
+
+.autocolor>*:nth-child(6n+1) h2 {
+    color : #FFB300;
+}
+.autocolor>*:nth-child(6n+2) h2 {
+    color : #C61931;
+}
+.autocolor>*:nth-child(6n+3) h2 {
+    color : #71456C;
+}
+.autocolor>*:nth-child(6n+4) h2 {
+    color : #008375;
+}
+.autocolor>*:nth-child(6n+5) h2 {
+    color : #FD4F57;
+}
+.autocolor>*:nth-child(6n+0) h2 {
+    color : #388AAB;
+}
+
+
+.autocolor>*:nth-child(6n+1) {
+    border-left : solid 0.4em #FFB300;
+}
+.autocolor>*:nth-child(6n+2) {
+    border-left : solid 0.4em #C61931; 
+}
+.autocolor>*:nth-child(6n+3) {
+    border-left : solid 0.4em #71456C; 
+}
+.autocolor>*:nth-child(6n+4) {
+    border-left : solid 0.4em #008375; 
+}
+.autocolor>*:nth-child(6n+5) {
+    border-left : solid 0.4em #FD4F57; 
+}
+.autocolor>*:nth-child(6n+0) {
+    border-left : solid 0.4em #328AAB; 
 }

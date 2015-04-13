@@ -22,7 +22,7 @@ var datasource_js = function(){
 
     function populate_fields(fields, data){
         for( var prop in fields ){
-            if ( typeof data[prop] === 'object'){
+            if ( data[prop] instanceof Object && !(data[prop] instanceof Array)){
                 populate_fields(fields[prop], data[prop]);
             }
             else {
