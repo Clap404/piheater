@@ -11,6 +11,16 @@ function getSensorList() {
     return temp.sensors();
 }
 
+function getSensors() {
+    var p_sensors = [];
+
+    for (var i=0; i < arguments.length; ++i){
+        p_sensors.push(getSensor(arguments[i]));
+    }
+
+    return Promise.all(p_sensors);
+}
+
 function getAllSensors() {
 
     return getSensorList()
@@ -37,4 +47,5 @@ module.exports = {
     getSensor : getSensor,
     getSensorList : getSensorList,
     getAllSensors : getAllSensors,
+    getSensors : getSensors,
 }
