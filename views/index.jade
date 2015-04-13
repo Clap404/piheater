@@ -31,5 +31,6 @@ block content
           each val, index in heater
             tr
               td= index
-              td.dyn(field=index+".alias")= val.alias
+              td.dyn(field=index+".name")= val.name
               td.dyn(field=index+".mode")= val.mode
+              td.dyn(field=index+".pins")= val.pins

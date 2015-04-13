@@ -1,81 +1,88 @@
 module.exports = function(app){
     var express = require("express");
     var router = express.Router();
+    var Promise = require("bluebird");
 
-    var bookshelf = app.get('bookshelf');
+        var bookshelf = app.get('bookshelf');
     var models = app.get('models');
     var sensormodels = models.sensors;
     var SensorModel = sensormodels.Sensor;
     var HeaterModel = sensormodels.Heater;
 
-    var get_sensor_dict = function(callback) {
-        var STATIC_SENSORS = ["A200", "A240"];
+    function get_sensor_dict(){
 
-        models.gpio.sensor.getSensors(STATIC_SENSORS).
-            then(function(values){
-                var sensor_dict = {};
+        return models.gpio.sensor.getSensorList()
+            .then(function(sensor_list){
+                return models.gpio.sensor.getSensors.apply(this, sensor_list)
+                    .then(function(values){
+                        var sensor_dict = {};
 
-                for(var i = 0; i < values.length; i++)
-                {
-                    sensor_id = STATIC_SENSORS[i];
-                    sensor_dict[sensor_id] = values[i];
-                }
+                        for(var i = 0; i < values.length; i++)
+                        {
+                            sensor_id = sensor_list[i];
+                            sensor_dict[sensor_id] = values[i];
+                        }
 
-                callback(sensor_dict);
+                        return sensor_dict ;
+                    });
             });
     };
 
-    var get_heater_dict = function(callback){
+    function get_heater_dict(){
+        //STATIC_HEATERS = retour de la db dans un then
         var STATIC_HEATERS = {
-            pouet1: {alias: "pouet1", pins: [11, 12]},
-            pouet2: {alias: "pouet2", pins: [13, 15]},
+            rad1: {name: "pouet1", pins: [11, 12]},
+            rad2: {name: "pouet2", pins: [13, 15]},
         };
 
-        var pins_lst = [];
-        for(var heater in STATIC_HEATERS)
-            pins_lst.push(STATIC_HEATERS[heater].pins);
-        var heaters = Object.keys(STATIC_HEATERS);
+        var heater_dict = STATIC_HEATERS;
 
-        models.gpio.heater.getHeaters.apply(this, pins_lst).
-            then(function(modes){
-                var heater_lst = [];
+        //on a besoin de la lliste des pins pour demander le status a
+        //model.gpio.heater
+        var pins_lst = [];
+        for(var heater in heater_dict)
+            pins_lst.push(heater_dict[heater].pins);
+
+        var heaters = Object.keys(heater_dict);
+
+        //ce qui suit sera a mettre dans un then après un appel a la DB
+        return models.gpio.heater.getHeaters.apply(this, pins_lst)
+            .then(function(modes){
 
                 for(var i = 0; i < modes.length; i++)
-                {
-                    heater_db = STATIC_HEATERS[heaters[i]];
-                    heater = {"alias": heater_db.alias, "mode": modes[i]};
-                    heater_lst.push(heater);
-                }
+                    heater_dict[heaters[i]].mode = modes[i];
 
-                callback(heater_lst);
+                return heater_dict ;
             });
 
     }
 
     router.get("/api/sensor", function(req, res, next){
-        get_sensor_dict(function(sensor_dict){
-            res.json(sensor_dict);
-        });
+        get_sensor_dict()
+            .then(function(sensor_dict){
+                res.json(sensor_dict);
+            });
     });
 
     router.get("/api/heater", function(req, res, next){
-        get_heater_dict(function(heater_lst){
-            res.json(heater_lst);
-        });
+        get_heater_dict()
+            .then(function(heater_lst){
+                res.json(heater_lst);
+            });
     });
 
     /* GET home page. */
     router.get("/", function(req, res, next) {
-        get_sensor_dict(function(sensor_dict){
+        var p_s_d = get_sensor_dict();
+        var p_h_d =  get_heater_dict();
+        Promise.join(p_s_d, p_h_d, function(sensor_dict, heater_dict){
             temparg = {
                 title: "Express",
                 sensor: sensor_dict,
+                heater: heater_dict,
             };
 
-            get_heater_dict(function(heater_lst){
-                temparg["heater"] = heater_lst;
-                res.render("index", temparg);
-            })
+            res.render("index", temparg);
         });
     });
 
