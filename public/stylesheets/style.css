@@ -6,14 +6,54 @@
  * black 
  */
 
+
+
 body{
+    color:#606060;
     padding: 1em;
-    background-color:#E6E2DD ;
+    max-width: 900px;
+    margin: auto;
+    background-image:url("/images/background.png");
+    background-repeat: repeat;
 }
 
+a{
+    transition-duration: 0.2s;
+    transition-property: all;
+    text-decoration:none;
+}
+
+a:hover{
+    transition-duration: 0.2s;
+    transition-property: all;
+    text-decoration:underline;
+}
 
 section{
     padding: 0 0.5em 0.5em 0.5em;
+}
+
+footer{
+    margin-top: 2em;
+    padding:2em 3em 2em 3em;
+    color:white;
+    background-color: rgba(10, 10, 10, 0.3);
+    -moz-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    -webkit-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    -o-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    box-shadow: 5px 5px 10px 0px #cfcfcf;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=10);
+}
+
+h1 {
+    padding-left: 2em;
+    color:white;
+    background-color: rgba(10, 10, 10, 0.3);
+    -moz-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    -webkit-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    -o-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    box-shadow: 5px 5px 10px 0px #cfcfcf;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=10);
 }
 
 h2 {
@@ -22,17 +62,65 @@ h2 {
     color:white;
 }
 
+table {
+    background-color: rgba(200, 200, 200, 0.3);
+    border: solid 1px lightgray;
+    -moz-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    -webkit-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    -o-box-shadow: 5px 5px 10px 0px #cfcfcf;
+    box-shadow: 5px 5px 10px 0px #cfcfcf;
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=134, Strength=10);
+}
+table * {
+    border: solid 1px lightgray;
+}
+
 nav {
     padding: 0.5em;
 }
 
-ul.unstyled{
+nav ul.unstyled{
     padding:0;
     padding-right: 1em;
 }
 
-ul.unstyled li{
+nav ul.unstyled li{
+    transition-duration: 0.2s;
+    transition-property: all;
     padding: 0.5em;
+}
+
+nav ul.unstyled li:hover{
+    transition-duration: 0.2s;
+    transition-property: all;
+    background-color: rgba(200, 200, 200, 0.3);
+    border-radius: 0 1em 1em 0;
+    padding-left: 1.5em;
+}
+
+/*tiny*/
+@media(max-width: 480px) {
+      
+    section {
+        margin-left: 0.5em;
+    }
+    
+    table {
+        border-collapse:separate;
+        border-spacing: 1em;
+        border: none;
+    }
+    table td{
+        padding:0.2em;
+        margin:0;
+        border: none;
+    }
+    table tr{
+        display: block;
+        margin: 0 0 1em 0;
+        border-left: 0.1em solid grey;
+        padding-left: 2em;
+    }
 }
 
 .autocolor>*:nth-child(6n+1) h2 {
