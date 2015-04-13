@@ -3,58 +3,82 @@ module.exports = function(app){
     var router = express.Router();
     var Promise = require("bluebird");
 
-        var bookshelf = app.get('bookshelf');
+    var bookshelf = app.get('bookshelf');
     var models = app.get('models');
     var sensormodels = models.sensors;
     var SensorModel = sensormodels.Sensor;
     var HeaterModel = sensormodels.Heater;
 
+    /**
+     * Get a object of sensors
+     *
+     * Fetch all the sensors in the database, get them modes and return it for
+     * the view
+     */
     function get_sensor_dict(){
+        return new SensorModel().fetchAll().
+            then(function(collection){
+                var sensors = collection.toJSON();
 
-        return models.gpio.sensor.getSensorList()
-            .then(function(sensor_list){
-                return models.gpio.sensor.getSensors.apply(this, sensor_list)
+                sensors_id = []
+                for(var i in sensors)
+                    sensors_id.push(sensors[i].name);
+
+                var structure_for_view = function(values){
+                    var sensor_dict = {};
+                    for(var i = 0; i < values.length; i++)
+                    {
+                        var sensor_id = sensors_id[i];
+                        sensor_dict[sensor_id] = sensors[i];
+                        sensor_dict[sensor_id].value = values[i];
+                        delete sensor_dict[sensor_id].id;
+                    }
+
+                    return sensor_dict;
+                }
+
+                return models.gpio.sensor.getSensors.apply(this, sensors_id)
                     .then(function(values){
-                        var sensor_dict = {};
-
-                        for(var i = 0; i < values.length; i++)
-                        {
-                            sensor_id = sensor_list[i];
-                            sensor_dict[sensor_id] = values[i];
-                        }
-
-                        return sensor_dict ;
+                        return structure_for_view(values)
+                    })
+                    .catch(function(){
+                        var values = [];
+                        for(var i in sensors_id) values.push(-1);
+                        return structure_for_view(values);
                     });
             });
     };
 
+    /**
+     * Get an object of heaters
+     *
+     * Fetch all the heaters in the database, get them modes and return it for
+     * the view
+     */
     function get_heater_dict(){
-        //STATIC_HEATERS = retour de la db dans un then
-        var STATIC_HEATERS = {
-            rad1: {name: "pouet1", pins: [11, 12]},
-            rad2: {name: "pouet2", pins: [13, 15]},
-        };
+        return new HeaterModel().fetchAll().
+            then(function(collection){
+                var heaters = collection.toJSON();
+                var pins_lst = [];
+                for(var i in heaters)
+                    pins_lst.push([heaters[i].pin1, heaters[i].pin2]);
 
-        var heater_dict = STATIC_HEATERS;
+                return models.gpio.heater.getHeaters.apply(this, pins_lst)
+                    .then(function(modes){
+                        heater_dict = {}
+                        for(var i = 0; i < modes.length; i++)
+                        {
+                            var heater_id = heaters[i].id;
+                            heater_dict[heater_id] = heaters[i];
+                            heater_dict[heater_id].mode = modes[i];
+                            delete heater_dict[heater_id].pin1;
+                            delete heater_dict[heater_id].pin2;
+                            heater_dict[heater_id].pins = pins_lst[i];
+                        }
 
-        //on a besoin de la lliste des pins pour demander le status a
-        //model.gpio.heater
-        var pins_lst = [];
-        for(var heater in heater_dict)
-            pins_lst.push(heater_dict[heater].pins);
-
-        var heaters = Object.keys(heater_dict);
-
-        //ce qui suit sera a mettre dans un then après un appel a la DB
-        return models.gpio.heater.getHeaters.apply(this, pins_lst)
-            .then(function(modes){
-
-                for(var i = 0; i < modes.length; i++)
-                    heater_dict[heaters[i]].mode = modes[i];
-
-                return heater_dict ;
+                        return heater_dict;
+                    });
             });
-
     }
 
     router.get("/api/sensor", function(req, res, next){
