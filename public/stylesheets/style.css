@@ -102,6 +102,7 @@ nav ul.unstyled li:hover{
     background-color: rgba(200, 200, 200, 0.3);
     border-radius: 0 1em 1em 0;
     padding-left: 1.5em;
+    padding-right: 0.5em;
 }
 
 /*tiny*/
