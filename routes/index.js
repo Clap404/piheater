@@ -110,12 +110,5 @@ module.exports = function(app){
         });
     });
 
-    /* Testing page */
-    router.get('/test', function(req, res, next) {
-        new HeaterModel().fetchAll().then(function(collect){
-            console.log(collect.at(0));
-        });
-    });
-
     return router;
 };
