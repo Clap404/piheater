@@ -2,8 +2,27 @@ doctype html
 html
   head
     title= title
+    meta(charset='UTF-8')
+    link(rel='stylesheet', href='/stylesheets/knacss.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(type='text/javascript', src='/scripts/jquery.min.js', defer)
     script(type='text/javascript', src='/scripts/datasource.js', defer)
   body
-    block content
+    h1= title
+
+    div.flexbox
+      aside.w20.tiny-wauto
+        nav#navigation(role="navigation")
+          ul.unstyled.autocolor
+            li Lorem
+            li Ipsum
+
+      block content
+
+    footer
+      p Website made with NodeJs and ExpressJs
+      p.
+        Background
+        <a href="http://subtlepatterns.com/gplay/">"Gplay"</a>
+        by 
+        <a href="http://dhesign.com/">Dimitrie Hoekstra</a>

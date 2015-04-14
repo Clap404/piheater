@@ -95,6 +95,8 @@ module.exports = function(app){
             });
     });
 
+    var Promise = require('bluebird');
+
     /* GET home page. */
     router.get("/", function(req, res, next) {
         var p_s_d = get_sensor_dict();

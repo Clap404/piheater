@@ -1,25 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to hahahahaha #{title}
 
-  section.dyn(datasource="/api/sensor", refresh="10000")
-    p Current temperatures :
+  div#main.flexitem-fluid.autocolor(role="main")   
+    section.dyn(datasource="/api/sensor", refresh="10000")
+      h2 Current temperatures : 
 
-    table
-      thead
-        tr
-          th sensor id
-          th temperature
-      tbody
-        each val,index in sensor
+      table
+        thead
           tr
-            td= index
-            td.dyn(field=index)= val
+            th sensor id
+            th temperature
+        tbody
+          each val,index in sensor
+            tr
+              td= index
+              td.dyn(field=index)= val
 
-  section.dyn(datasource="/api/heater", refresh="10000")
-    p Heater status :
+    section.dyn(datasource="/api/heater", refresh="10000")
+      h2 Heater status :
+
       table
         thead
           tr
