@@ -105,7 +105,7 @@ module.exports = function(app){
         var mode = req.body.mode;
         models.gpio.heater.setHeater(pins[0], pins[1], mode).
             then(function(){
-                res.status(200);
+                res.status(200).json({"status":"ok"});
             }).catch(function(error){
                 res.status(500).json({
                     "error": error.Error || "cannot set heater",
