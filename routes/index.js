@@ -95,20 +95,18 @@ module.exports = function(app){
             });
     });
 
-    var Promise = require('bluebird');
-
     /* GET home page. */
     router.get("/", function(req, res, next) {
         var p_s_d = get_sensor_dict();
         var p_h_d =  get_heater_dict();
         Promise.join(p_s_d, p_h_d, function(sensor_dict, heater_dict){
-            temparg = {
+            view_arg = {
                 title: "Express",
                 sensor: sensor_dict,
                 heater: heater_dict,
             };
 
-            res.render("index", temparg);
+            res.render("index", view_arg);
         });
     });
 
