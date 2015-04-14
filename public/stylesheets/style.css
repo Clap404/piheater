@@ -88,6 +88,12 @@ nav ul.unstyled li{
     transition-duration: 0.2s;
     transition-property: all;
     padding: 0.5em;
+    padding-right: 1.5em;
+}
+
+nav li a{
+    display:block;
+    width:100%;
 }
 
 nav ul.unstyled li:hover{

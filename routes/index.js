@@ -119,7 +119,7 @@ module.exports = function(app){
         var p_h_d =  get_heater_dict();
         Promise.join(p_s_d, p_h_d, function(sensor_dict, heater_dict){
             view_arg = {
-                title: "Express",
+                title: "PiHeater",
                 sensor: sensor_dict,
                 heater: heater_dict,
             };

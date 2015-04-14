@@ -1,10 +1,16 @@
 extends layout
 
+block nav
+  li
+    a(href="#sensor") Temperatures 
+  li
+    a(href="#heater") Heaters Statuses
+
 block content
 
   div#main.flexitem-fluid.autocolor(role="main")
-    section.dyn(datasource="/api/sensor", refresh="10000")
-      h2 Current temperatures :
+    section#sensor.dyn(datasource="/api/sensor", refresh="10000")
+      h2 Temperatures
 
       table
         thead
@@ -19,8 +25,8 @@ block content
               td.dyn(field=index+".descr")= val.descr
               td.dyn(field=index+".value")= val.value
 
-    section.dyn(datasource="/api/heater", refresh="10000")
-      h2 Heater status :
+    section#heater.dyn(datasource="/api/heater", refresh="5000")
+      h2 Heaters Statuses
 
       script.
         //a general purpose "action" function would be better but…
