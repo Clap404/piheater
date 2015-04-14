@@ -95,6 +95,24 @@ module.exports = function(app){
             });
     });
 
+    /**
+     * Send a heater state
+     *
+     * Require a POST request with the json {id:, pins:, mode:}
+     */
+    router.post("/api/heater", function(req, res, next){
+        var pins = req.body.pins;
+        var mode = req.body.mode;
+        models.gpio.heater.setHeater(pins[0], pins[1], mode).
+            then(function(){
+                res.status(200);
+            }).catch(function(error){
+                res.status(500).json({
+                    "error": error.Error || "cannot set heater",
+                });
+            });
+    });
+
     /* GET home page. */
     router.get("/", function(req, res, next) {
         var p_s_d = get_sensor_dict();
