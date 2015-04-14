@@ -20,6 +20,20 @@ block content
     section.dyn(datasource="/api/heater", refresh="10000")
       h2 Heater status :
 
+      script.
+        //a general purpose "action" function would be better but…
+        function heater_update(id, pins, mode){
+          var data = {"id":id, "pins":pins, "mode":mode};
+          var datasource="/api/heater";
+          $.ajax({
+            url:datasource,
+            type:"POST",
+            contentType:"application/json",
+            dataType:"json",
+            data:JSON.stringify(data)
+          });
+        }
+
       table
         thead
           tr
@@ -33,4 +47,12 @@ block content
               td= index
               td.dyn(field=index+".name")= val.name
               td.dyn(field=index+".mode")= val.mode
-              td.dyn(field=index+".pins")= val.pins
+              td(field=index+".pins")
+                - var modes = ['on','eco','min','off']
+                for m in modes
+                  - var trigger = "heater_update('"+index +"',["+val.pins+"],'"+m+"');"
+                  button(onclick=trigger)= m
+
+
+
+

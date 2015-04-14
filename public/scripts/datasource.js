@@ -60,10 +60,6 @@ var datasource_js = function(){
         //set callback for current section
         window.setInterval(function(){
 
-            function fill_fields(data) {
-               data.each( index, value ) 
-            }
-
             //ajax request
             $.ajax(datasource)
                 .done(function(data) {
