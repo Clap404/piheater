@@ -2,20 +2,22 @@ extends layout
 
 block content
 
-  div#main.flexitem-fluid.autocolor(role="main")   
+  div#main.flexitem-fluid.autocolor(role="main")
     section.dyn(datasource="/api/sensor", refresh="10000")
-      h2 Current temperatures : 
+      h2 Current temperatures :
 
       table
         thead
           tr
             th sensor id
+            th description
             th temperature
         tbody
           each val,index in sensor
             tr
               td= index
-              td.dyn(field=index)= val
+              td.dyn(field=index+".descr")= val.descr
+              td.dyn(field=index+".value")= val.value
 
     section.dyn(datasource="/api/heater", refresh="10000")
       h2 Heater status :
